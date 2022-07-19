@@ -29,6 +29,14 @@ describe('AppController (e2e)', () => {
 	await app.init();
   });
 
+  it('/review/create (POST) - fail', () => {
+	return request(app.getHttpServer())
+		.post('/review/create')
+		.send({ ...testDto, reting: 0 })
+		.expect(400)
+  });
+
+
   it('/review/create (POST) - success', async () => {
 	return request(app.getHttpServer())
 		.post('/review/create')

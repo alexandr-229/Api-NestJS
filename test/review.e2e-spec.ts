@@ -17,7 +17,7 @@ const testDto: CreateReviewDto = {
 	name: 'test',
 	title: 'title',
 	description: 'description',
-	reting: 5, 
+	rating: 5, 
 	productId
 }
 
@@ -43,7 +43,7 @@ describe('ReviewController (e2e)', () => {
 	it('/review/create (POST) - fail', () => {
 		return request(app.getHttpServer())
 			.post('/review/create')
-			.send({ ...testDto, reting: 0 })
+			.send({ ...testDto, rating: 0 })
 			.expect(400)
 	});
 

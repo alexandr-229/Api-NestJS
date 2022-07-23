@@ -1,6 +1,16 @@
-import { Post, Controller, Body, Get, Param, Delete, Patch, HttpCode } from '@nestjs/common';
+import {
+    Post,
+    Controller, 
+    Body,
+    Get,
+    Param,
+    Delete,
+    Patch,
+    HttpCode
+} from '@nestjs/common';
 import { PageModel } from './page.model'
 import { FindPageDto } from './dto/find-page.dto'
+import { IdValidationPipe } from '../pipes/id-validation-pipe';
 
 @Controller('page')
 export class PageController {
@@ -11,17 +21,17 @@ export class PageController {
     }
 
     @Get(':id')
-    async get(@Param('id') id: string) {
+    async get(@Param('id', IdValidationPipe) id: string) {
 
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: string) {
+    async delete(@Param('id', IdValidationPipe) id: string) {
          
     }
 
     @Patch(':id')
-    async patch(@Param('id') id: string, dto: PageModel) {
+    async patch(@Param('id', IdValidationPipe) id: string, dto: PageModel) {
 
     }
 

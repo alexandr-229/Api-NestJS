@@ -4,6 +4,7 @@
 /.history
 /.env
 /mongo-data-4.4
+/.clinic
 
 # Logs
 logs

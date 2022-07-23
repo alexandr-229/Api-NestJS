@@ -27,7 +27,7 @@ const testDto: CreateProductDto = {
 	}]
 }
 
-describe('ReviewController (e2e)', () => {
+describe('ProductController (e2e)', () => {
   let app: INestApplication;
   let id: string;
   let token: string;

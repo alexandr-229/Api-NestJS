@@ -44,6 +44,9 @@ export class PageModel extends TimeStamps{
     @prop()
     title: string;
 
+    @prop({ unique: true })
+    alias: string;
+
     @prop()
     category: string;
 

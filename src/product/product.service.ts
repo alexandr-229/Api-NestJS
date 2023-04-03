@@ -1,0 +1,68 @@
+import { Injectable } from '@nestjs/common';
+import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
+import { InjectModel } from 'nestjs-typegoose';
+import { ReviewModel } from 'src/review/review.model';
+import { CreateProductDto } from './dto/create.product.dto';
+import { FindProductDto } from './dto/find.product.dto';
+import { ProductModel } from './product.model';
+
+@Injectable()
+export class ProductService {
+	constructor(
+		@InjectModel(ProductModel) private readonly productModel: ModelType<ProductModel>
+	) { }
+
+	async create(dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
+		const result = await this.productModel.create(dto);
+		return result;
+	}
+
+	async findById(id: string): Promise<DocumentType<ProductModel> | null> {
+		const result = await this.productModel.findById(id).exec();
+		return result;
+	}
+
+	async deleteById(id: string): Promise<DocumentType<ProductModel> | null> {
+		const result = await this.productModel.findByIdAndDelete(id).exec();
+		return result;
+	}
+
+	async updateById(id: string, dto: CreateProductDto): Promise<DocumentType<ProductModel> | null> {
+		const result = await this.productModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+		return result;
+	}
+
+	async findWithReviews(dto: FindProductDto) {
+		const result: (ProductModel & {
+			review: ReviewModel[],
+			reviewCount: number,
+			reviewAvg: number
+		})[] = await this.productModel
+			.aggregate()
+			.match({ categories: dto.category })
+			.sort({ _id: 1 })
+			.limit(dto.limit)
+			.lookup({
+				from: 'Review',
+				localField: '_id',
+				foreignField: 'productId',
+				as: 'reviews'
+			})
+			.addFields({
+				reviewCount: { $size: '$reviews' },
+				reviewAvg: { $avg: '$reviews.rating' },
+				reviews: {
+					$function: {
+						body: `function(reviews) {
+							reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+							return reviews;
+						}`,
+						args: [ '$reviews' ],
+						lang: 'js'
+					}
+				}
+			})
+			.exec();
+		return result;
+	}
+}

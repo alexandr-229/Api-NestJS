@@ -14,7 +14,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: docker.pkg.github.com/Api-NestJS/nest-api:latest
+        tags: docker.pkg.github.com/api-nestjs/nest-api:latest
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

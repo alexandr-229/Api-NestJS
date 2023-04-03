@@ -1,13 +1,10 @@
 version: '3'
 services:
-  mongodb:
-    image: mongo
+  nest-api:
+    image: nest-api:latest
     restart: always
-    container_name: nest-mongo
+    container_name: nest-api
     ports:
-      - "19020:27017"
+      - 3000:3000
     volumes:
-      - ./data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_LOGIN}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      - ./.env:/learn/nest/.env

@@ -21,6 +21,11 @@ export class PageService {
 		return result;
 	}
 
+	async findAll(): Promise<DocumentType<PageModel>[]> {
+		const result = await this.pageModel.find({ }).exec();
+		return result;
+	}
+
 	async deleteById(id: string): Promise<DocumentType<PageModel> | null> {
 		const result = await this.pageModel.findByIdAndDelete(id).exec();
 		return result;

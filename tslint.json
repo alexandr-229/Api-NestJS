@@ -1,7 +1,7 @@
 {
 	"rules": {
 		"no-var-requires": true,
-		"no-any": true,
+		"no-any": false,
 		"promise-function-async": true,
 		"await-promise": true,
 		"curly": true,
@@ -19,7 +19,7 @@
 		"no-tautology-expression": true,
 		"no-unused-variable": true,
 		"no-var-keyword": true,
-		"static-this": true,
+		"static-this": false,
 		"switch-default": true,
 		"triple-equals": false,
 		"no-require-imports": false,

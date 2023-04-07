@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReviewModel } from 'src/review/review.model';
+import { TelegramService } from 'src/telegram/telegram.service';
 import { CreateProductDto } from './dto/create.product.dto';
 import { FindProductDto } from './dto/find.product.dto';
 import { ProductModel } from './product.model';
@@ -9,11 +10,17 @@ import { ProductModel } from './product.model';
 @Injectable()
 export class ProductService {
 	constructor(
-		@InjectModel(ProductModel) private readonly productModel: ModelType<ProductModel>
+		@InjectModel(ProductModel) private readonly productModel: ModelType<ProductModel>,
+		private readonly telegramService: TelegramService
 	) { }
 
 	async create(dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
 		const result = await this.productModel.create(dto);
+		const message = `Title: ${dto.title}\n`
+			+ `Price: ${dto.price}\n`
+			+ `Description: ${dto.description}\n`
+			+ `ID: ${result._id}`;
+		this.telegramService.sendMessage(message);
 		return result;
 	}
 

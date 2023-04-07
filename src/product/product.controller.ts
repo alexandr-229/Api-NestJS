@@ -21,7 +21,7 @@ import { IdValidationPipe } from '../pipes/id.validation.pipe';
 @Controller('product')
 export class ProductController {
 	constructor(
-		private readonly productService: ProductService
+		private readonly productService: ProductService,
 	) {}
 
 	@UsePipes(new ValidationPipe())

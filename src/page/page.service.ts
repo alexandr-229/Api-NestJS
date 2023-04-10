@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DocumentType, ModelType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
+import { subDays } from 'date-fns';
 import { CreatePageDto } from './dto/create.page.dto';
 import { FindPageDto } from './dto/find.page.dto';
 import { PageModel } from './page.model';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class PageService {
@@ -16,7 +18,7 @@ export class PageService {
 		return result;
 	}
 
-	async findById(id: string): Promise<DocumentType<PageModel> | null> {
+	async findById(id: string | Types.ObjectId): Promise<DocumentType<PageModel> | null> {
 		const result = await this.pageModel.findById(id).exec();
 		return result;
 	}
@@ -26,12 +28,28 @@ export class PageService {
 		return result;
 	}
 
-	async deleteById(id: string): Promise<DocumentType<PageModel> | null> {
+	async findByText(text: string): Promise<DocumentType<PageModel>[]> {
+		const result = await this.pageModel.find({ $text: { $search: text, $caseSensitive: false } }).exec();
+		return result;
+	}
+
+	async findForJustJoinItUpdate(date: Date): Promise<DocumentType<PageModel>[]> {
+		const result = await this.pageModel.find({
+			firstCategory: 0,
+			$or: [
+				{ 'justjoinit.updatedAt': { $lt: subDays(date, 1) } },
+				{ 'justjoinit.updatedAt': { $exists: false } }
+			]
+		}).exec();
+		return result;
+	}
+
+	async deleteById(id: string | Types.ObjectId): Promise<DocumentType<PageModel> | null> {
 		const result = await this.pageModel.findByIdAndDelete(id).exec();
 		return result;
 	}
 
-	async updateById(id: string, dto: CreatePageDto): Promise<DocumentType<PageModel> | null> {
+	async updateById(id: string | Types.ObjectId, dto: CreatePageDto): Promise<DocumentType<PageModel> | null> {
 		const result = await this.pageModel.findByIdAndUpdate(id, dto, { new: true }).exec();
 		return result;
 	}
@@ -45,11 +63,6 @@ export class PageService {
 				pages: { $push: { alias: '$alias', title: '$title' } }
 			})
 			.exec();
-		return result;
-	}
-
-	async findByText(text: string): Promise<DocumentType<PageModel>[]> {
-		const result = await this.pageModel.find({ $text: { $search: text, $caseSensitive: false } }).exec();
 		return result;
 	}
 }

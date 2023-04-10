@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, ValidateNested, IsArray, IsEnum } from 'class-validator';
+import { IsString, IsNumber, ValidateNested, IsArray, IsEnum, IsDate } from 'class-validator';
 
 export enum TopLevelCategories {
 	Courses,
@@ -8,7 +8,7 @@ export enum TopLevelCategories {
 	Products
 }
 
-class HHData {
+class JustJoinItData {
 
 	@IsNumber()
 	count: number;
@@ -21,6 +21,9 @@ class HHData {
 
 	@IsNumber()
 	seniorSalary: number;
+
+	@IsDate()
+	updatedAt: Date;
 }
 
 class PageAdvatange {
@@ -49,7 +52,7 @@ export class CreatePageDto {
 	category: string;
 
 	@ValidateNested()
-	hh?: HHData;
+	hh?: JustJoinItData;
 
 	@IsArray()
 	@ValidateNested()

@@ -10,18 +10,22 @@ import {
 	HttpException,
 	HttpStatus,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
+import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { IdValidationPipe } from '../pipes/id.validation.pipe';
 import { CreatePageDto } from './dto/create.page.dto';
 import { FindPageDto } from './dto/find.page.dto';
 import { PageService } from './page.service';
 import { PAGE_NOT_FOUND } from './page.const';
+import { JustjoinitService } from 'src/justjoinit/justjoinit.service';
 
 @Controller('page')
 export class PageController {
 	constructor(
-		private readonly pageService: PageService
+		private readonly pageService: PageService,
+		private readonly justjoinitService: JustjoinitService,
+		private readonly schedulerRegistry: SchedulerRegistry
 	) { }
 
 	@UsePipes(new ValidationPipe())
@@ -71,5 +75,15 @@ export class PageController {
 	async textSearch(@Param('text') text: string) {
 		const result = await this.pageService.findByText(text);
 		return result;
+	}
+
+	@Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+	async setJustJoinItData() {
+		const pages = await this.pageService.findForJustJoinItUpdate(new Date());
+		for(const page of pages) {
+			const justjoinitData = await this.justjoinitService.getData(page.category);
+			page.justjoinit = justjoinitData;
+			await this.pageService.updateById(page._id, page);
+		}
 	}
 }

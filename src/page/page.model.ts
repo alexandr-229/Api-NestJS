@@ -8,7 +8,7 @@ export enum TopLevelCategories {
 	Products
 }
 
-class HHData {
+export class JustJoinItData {
 
 	@prop()
 	count: number;
@@ -21,6 +21,9 @@ class HHData {
 
 	@prop()
 	seniorSalary: number;
+
+	@prop()
+	updatedAt: Date;
 }
 
 class PageAdvatange {
@@ -52,8 +55,8 @@ export class PageModel extends TimeStamps {
 	@prop()
 	category: string;
 
-	@prop({ type: () => HHData })
-	hh?: HHData;
+	@prop({ type: () => JustJoinItData })
+	justjoinit?: JustJoinItData;
 
 	@prop({ type: () => [PageAdvatange] })
 	advatanges: PageAdvatange[];

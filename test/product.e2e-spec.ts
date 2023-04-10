@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Types, disconnect } from 'mongoose';
 import { PRODUCT_NOT_FOUND } from '../src/product/product.const';
 import { FindProductDto } from '../src/product/dto/find.product.dto';
 import { CreateProductDto } from '../src/product/dto/create.product.dto';
+import * as request from 'supertest';
 
 const productDto: CreateProductDto = {
 	image: 'image',

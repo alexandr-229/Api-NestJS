@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
-import { ReviewModel } from 'src/review/review.model';
-import { TelegramService } from 'src/telegram/telegram.service';
+import { ReviewModel } from '../review/review.model';
+import { TelegramService } from '../telegram/telegram.service';
 import { CreateProductDto } from './dto/create.product.dto';
 import { FindProductDto } from './dto/find.product.dto';
 import { ProductModel } from './product.model';

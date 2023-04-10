@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
 import { Types, disconnect } from 'mongoose';
 import { AppModule } from '../src/app.module';
 import { CreatePageDto } from '../src/page/dto/create.page.dto';
 import { FindPageDto } from '../src/page/dto/find.page.dto';
 import { PAGE_NOT_FOUND } from '../src/page/page.const';
+import * as request from 'supertest';
 
 const pageDto: CreatePageDto = {
 	firstCategory: 0,
@@ -13,11 +13,12 @@ const pageDto: CreatePageDto = {
 	alias: 'alias',
 	title: 'title',
 	category: 'category',
-	hh: {
+	justjoinit: {
 		count: 5000,
 		juniorSalary: 1000,
 		middleSalary: 3000,
-		seniorSalary: 10000
+		seniorSalary: 10000,
+		updatedAt: new Date()
 	},
 	advatanges: [
 		{

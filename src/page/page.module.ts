@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypegooseModule } from 'nestjs-typegoose';
-import { JustjoinitModule } from 'src/justjoinit/justjoinit.module';
+import { JustjoinitModule } from '../justjoinit/justjoinit.module';
 import { PageController } from './page.controller';
 import { PageModel } from './page.model';
 import { PageService } from './page.service';

@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { JustJoinItData } from 'src/page/page.model';
+import { JustJoinItData } from '../page/page.model';
 import { API_URL, INVALID_RESPONSE_ERROR } from './justjoinit.const';
 import { JustJoinItResponse } from './justjoinit.models';
 

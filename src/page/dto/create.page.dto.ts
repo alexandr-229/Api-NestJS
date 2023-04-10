@@ -52,7 +52,7 @@ export class CreatePageDto {
 	category: string;
 
 	@ValidateNested()
-	hh?: JustJoinItData;
+	justjoinit?: JustJoinItData;
 
 	@IsArray()
 	@ValidateNested()

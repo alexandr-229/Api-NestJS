@@ -18,7 +18,7 @@ import { CreatePageDto } from './dto/create.page.dto';
 import { FindPageDto } from './dto/find.page.dto';
 import { PageService } from './page.service';
 import { PAGE_NOT_FOUND } from './page.const';
-import { JustjoinitService } from 'src/justjoinit/justjoinit.service';
+import { JustjoinitService } from '../justjoinit/justjoinit.service';
 
 @Controller('page')
 export class PageController {

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { disconnect } from 'mongoose';
-import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from '../src/auth/dto/auth.dto';
 import { USER_NOT_FOUND, WRONG_PASSWORD_ERROR } from '../src/auth/auth.const';
+import * as request from 'supertest';
 
 const loginDto: AuthDto = {
 	login: 'a@gmail.com',

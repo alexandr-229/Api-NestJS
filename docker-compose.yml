@@ -17,9 +17,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./.env:/learn/nest/.env
+      - ./.env:./.env
     depends_on:
       - database
     build:
-      context: /learn/nest/
+      context: .
       dockerfile: ./Dockerfile

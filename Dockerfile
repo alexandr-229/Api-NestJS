@@ -1,5 +1,5 @@
 FROM node:19-alpine
-WORKDIR /learn/nest
+WORKDIR /
 ADD package.json package.json
 RUN npm install --force
 ADD . .

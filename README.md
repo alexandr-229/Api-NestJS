@@ -14,9 +14,7 @@ To run the application:
 
 		MONGO_PASSWORD=<Database password>
 
-		MONGO_HOST=<Database password>
-
-		MONGO_POST=<Database password>
+		MONGO_SERVER=<Datebase server>
 
 		MONGO_AUTH_DB=<Database auth DB>
 

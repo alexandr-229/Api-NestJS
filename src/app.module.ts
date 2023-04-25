@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { AuthModule } from './auth/auth.module';
 import { PageModule } from './page/page.module';
@@ -11,7 +12,6 @@ import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
 import { JustjoinitModule } from './justjoinit/justjoinit.module';
-import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
 	imports: [
@@ -22,17 +22,17 @@ import { ScheduleModule } from '@nestjs/schedule';
 			inject: [ConfigService],
 			useFactory: getMongoConfig
 		}),
+		TelegramModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: getTelegramConfig
+		}),
 		AuthModule,
 		PageModule,
 		ProductModule,
 		ReviewModule,
 		FilesModule,
 		SitemapModule,
-		TelegramModule.forRootAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getTelegramConfig
-		}),
 		JustjoinitModule,
 	]
 })

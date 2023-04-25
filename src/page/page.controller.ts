@@ -12,7 +12,7 @@ import {
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
-import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { IdValidationPipe } from '../pipes/id.validation.pipe';
 import { CreatePageDto } from './dto/create.page.dto';
 import { FindPageDto } from './dto/find.page.dto';
@@ -25,7 +25,6 @@ export class PageController {
 	constructor(
 		private readonly pageService: PageService,
 		private readonly justjoinitService: JustjoinitService,
-		private readonly schedulerRegistry: SchedulerRegistry
 	) { }
 
 	@UsePipes(new ValidationPipe())

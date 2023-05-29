@@ -76,7 +76,13 @@ export class PageController {
 		return result;
 	}
 
-	@Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+	@Get('byAlias/:alias')
+	async findByAlias(@Param('alias') alias: string) {
+		const result = await this.pageService.findByAlias(alias);
+		return result;
+	}
+
+	@Cron(CronExpression.EVERY_10_HOURS)
 	async setJustJoinItData() {
 		const pages = await this.pageService.findForJustJoinItUpdate(new Date());
 		for(const page of pages) {

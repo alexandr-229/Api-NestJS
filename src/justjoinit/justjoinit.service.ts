@@ -35,6 +35,15 @@ export class JustjoinitService {
 			const avgItemSalary = (from + to) / 2;
 			return from && to ? total += avgItemSalary : total;
 		}, 0) / data.length;
+		if(!data.length) {
+			return {
+				count: 0,
+				updatedAt: new Date(),
+				juniorSalary: 0,
+				middleSalary: 0,
+				seniorSalary: 0
+			};
+		}
 		const result: JustJoinItData = {
 			count: data.length,
 			updatedAt: new Date(),

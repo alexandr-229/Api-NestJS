@@ -33,6 +33,11 @@ export class PageService {
 		return result;
 	}
 
+	async findByAlias(alias: string): Promise<DocumentType<PageModel> | null> {
+		const result = await this.pageModel.findOne({ alias }).exec();
+		return result;
+	}
+
 	async findForJustJoinItUpdate(date: Date): Promise<DocumentType<PageModel>[]> {
 		const result = await this.pageModel.find({
 			firstCategory: 0,
@@ -65,10 +70,10 @@ export class PageService {
 						alias: '$alias',
 						title: '$title',
 						category: '$category',
-						_id: '$_id',
 					}
 				}
 			})
+			.sort({ '_id.secondCategory': 1 })
 			.exec();
 		return result;
 	}

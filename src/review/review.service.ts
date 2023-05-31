@@ -35,4 +35,17 @@ export class ReviewService {
 		const result = await this.reviewModel.deleteMany({ productId: new Types.ObjectId(productId) }).exec();
 		return result;
 	}
+
+	async findPopularProducts(limit: number): Promise<Types.ObjectId[]> {
+		const reviews: { _id: Types.ObjectId, reviewCount: number }[] = await this.reviewModel.aggregate()
+			.group({
+				_id: '$productId',
+				reviewCount: { $sum: 1 }
+			})
+			.sort({ reviewCount: -1 })
+			.limit(limit)
+			.exec();
+		const result: Types.ObjectId[] = reviews.map(({ _id }) => _id);
+		return result;
+	}
 }

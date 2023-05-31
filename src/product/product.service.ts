@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
+import { ReviewService } from 'src/review/review.service';
 import { ReviewModel } from '../review/review.model';
 import { TelegramService } from '../telegram/telegram.service';
 import { CreateProductDto } from './dto/create.product.dto';
@@ -11,7 +12,8 @@ import { ProductModel } from './product.model';
 export class ProductService {
 	constructor(
 		@InjectModel(ProductModel) private readonly productModel: ModelType<ProductModel>,
-		private readonly telegramService: TelegramService
+		private readonly telegramService: TelegramService,
+		private readonly reviewService: ReviewService
 	) { }
 
 	async create(dto: CreateProductDto): Promise<DocumentType<ProductModel>> {
@@ -49,6 +51,30 @@ export class ProductService {
 			.match({ categories: dto.category })
 			.sort({ _id: 1 })
 			.limit(dto.limit)
+			.lookup({
+				from: 'Review',
+				localField: '_id',
+				foreignField: 'productId',
+				as: 'reviews'
+			})
+			.addFields({
+				reviewCount: { $size: '$reviews' },
+				reviewAvg: { $avg: '$reviews.rating' },
+				reviews: {
+					$sortArray: {
+						input: '$reviews',
+						sortBy: { createdAt: -1 }
+					}
+				}
+			})
+			.exec();
+		return result;
+	}
+
+	async findPopular(limit: number) {
+		const productsId = await this.reviewService.findPopularProducts(limit);
+		const result = await this.productModel.aggregate()
+			.match({ _id: { $in: productsId } })
 			.lookup({
 				from: 'Review',
 				localField: '_id',

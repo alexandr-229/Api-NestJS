@@ -17,6 +17,7 @@ import { FindProductDto } from './dto/find.product.dto';
 import { ProductService } from './product.service';
 import { PRODUCT_NOT_FOUND } from './product.const';
 import { IdValidationPipe } from '../pipes/id.validation.pipe';
+import { FindPopularDto } from './dto/popular.product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -64,6 +65,14 @@ export class ProductController {
 	@Post('find')
 	async find(@Body() dto: FindProductDto) {
 		const result = await this.productService.findWithReviews(dto);
+		return result;
+	}
+
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Post('popular')
+	async getPopular(@Body() dto: FindPopularDto) {
+		const result = await this.productService.findPopular(dto.limit);
 		return result;
 	}
 }
